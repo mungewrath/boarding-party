@@ -14,10 +14,10 @@ public class Resource {
 	private String name;
 	
 	public static class ResourceID {
-		public Player owner;
+		public Player.PlayerID owner;
 		public String name;
 		
-		public ResourceID(Player owner, String name) {
+		public ResourceID(Player.PlayerID owner, String name) {
 			this.owner = owner;
 			this.name = name;
 		}
@@ -34,7 +34,7 @@ public class Resource {
 		
 		@Override
 		public int hashCode() {
-			return 5*owner.getName().length() + 23*name.length();
+			return 5*owner.name.length() + 23*name.length();
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class Resource {
 	}
 	
 	public ResourceID getID() {
-		return new ResourceID(owner, name);
+		return new ResourceID(owner.getID(), name);
 	}
 	
 	public void setQuantity(int quantity) {

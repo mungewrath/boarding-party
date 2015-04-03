@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import core.Card.CardID;
 import presenter.IPlayerNotifier;
 import presenter.IPlayerNotifier.IPlayerNotifierListener;
 import rules.IGameRules;
@@ -12,7 +13,7 @@ import rules.RulesException;
 
 public class GameState implements IPlayerNotifierListener {
 	// TODO: Change lists in favor of associative containers
-	private List<Slot> slots = new ArrayList<Slot>();
+	private Map<Slot.SlotID, Slot> slots = new HashMap<Slot.SlotID, Slot>();
 	private Map<Resource.ResourceID, Resource> resources = new HashMap<Resource.ResourceID, Resource>();
 	private List<Player> players;
 	private List<Effect> globalEffects = new ArrayList<Effect>();
@@ -39,7 +40,7 @@ public class GameState implements IPlayerNotifierListener {
 	}
 	
 	public void addSlot(Slot slot) {
-		slots.add(slot);
+		slots.put(slot.getID(), slot);
 		for(IPlayerNotifier presenter : playerPresenters.keySet()) {
 			presenter.slotAdded(slot);
 		}
@@ -56,7 +57,7 @@ public class GameState implements IPlayerNotifierListener {
 	public void addResource(Resource r) {
 		resources.put(r.getID(), r);
 		for(IPlayerNotifier presenter : playerPresenters.keySet()) {
-			presenter.resourceAdded(r);
+			presenter.resourceCreated(r);
 		}
 	}
 	
@@ -74,23 +75,51 @@ public class GameState implements IPlayerNotifierListener {
 	}
 	
 	public Resource getResourceForPlayer(Player p, String id) {
-		Resource.ResourceID key = new Resource.ResourceID(p,id);
+		Resource.ResourceID key = new Resource.ResourceID(p.getID(),id);
 		return resources.get(key);
 	}
-
-	@Override
-	public boolean playerWantsToUseCardEffect(IPlayerNotifier player, Effect e) {
-		return rules.useCardEffect(playerPresenters.get(player), e);
+	
+	// Locators
+	public Effect getEffectForID(Effect.EffectID eid) {
+		if(eid.card != null) {
+			return getCardForID(eid.card).getEffect(eid.name);
+		} else {
+			for(Effect e : globalEffects) {
+				if(e.getEffectName().equals(eid.name)) {
+					return e;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public Card getCardForID(Card.CardID cid) {
+		if(cid.parentCard != null) {
+			return getCardForID(cid.parentCard).getChild(cid.cardIndex);
+		} else if(cid.slot != null) {
+			return getSlotForID(cid.slot).getCardAtIndex(cid.slotNum);
+		} else {
+			return null;
+		}
+	}
+	
+	public Slot getSlotForID(Slot.SlotID sid) {
+		return slots.get(sid);
 	}
 
 	@Override
-	public boolean playerWantsToMoveCardToSlot(IPlayerNotifier player) {
+	public boolean playerWantsToUseCardEffect(IPlayerNotifier player, Effect.EffectID e) {
+		return rules.useCardEffect(playerPresenters.get(player), getEffectForID(e));
+	}
+
+	@Override
+	public boolean playerWantsToMoveCardToSlot(IPlayerNotifier player, Card.CardID card, Slot.SlotID slot) {
 		return rules.moveCard(playerPresenters.get(player));
 	}
 
 	@Override
 	public boolean playerWantsToAttachCardToCard(IPlayerNotifier player,
-			Card host, Card attachee) {
+			Card.CardID host, Card.CardID attachee) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -110,6 +139,12 @@ public class GameState implements IPlayerNotifierListener {
 
 	@Override
 	public void playerSentMessage(IPlayerNotifier player, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disconnectedFromGame(String message) {
 		// TODO Auto-generated method stub
 		
 	}
