@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import core.Card;
 import core.Effect;
 import core.GameState;
 import core.GameStateException;
@@ -18,12 +19,6 @@ public class JanKenPonTextPresenter implements IPlayerNotifier {
 	public GameState state;
 	IPlayerNotifierListener listener;
 	private static Scanner input = new Scanner(System.in);
-
-	@Override
-	public void resourceAdded(Resource arg0) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void resourceAmountChanged(Resource arg0, int arg1) {
@@ -68,7 +63,7 @@ public class JanKenPonTextPresenter implements IPlayerNotifier {
 			}
 		}
 		while(choice > moves.size() || choice < 0);
-		if(!listener.playerWantsToUseCardEffect(this, moves.get(choice))) {
+		if(!listener.playerWantsToUseCardEffect(this, moves.get(choice).getID())) {
 			throw new Exception("Presenter errorrrrrr");
 		}
 	}
@@ -113,6 +108,66 @@ public class JanKenPonTextPresenter implements IPlayerNotifier {
 	@Override
 	public void subscribeListener(IPlayerNotifierListener listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public void cardDestroyed(Card c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void effectTriggered(Effect e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cardAddedToSlot(Card c, Slot s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cardMovedToSlot(Card c, Slot s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cardAddedToCard(Card host, Card parasite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cardAttachedToCard(Card host, Card parasite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resourceCreated(Resource r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playerQuitGame(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playerSentMessage(Player player, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disconnectedFromGame(String message) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
