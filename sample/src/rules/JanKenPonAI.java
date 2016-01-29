@@ -29,6 +29,13 @@ public class JanKenPonAI implements IPlayerNotifier {
 
 	@Override
 	public void turnStateChanged(String newState) {
+		System.out.println("Starting AI sleep");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(newState.equals(JanKenPonGameRules.JanKenPonState.STATE_CHOOSE_TYPE.toString())) {
 			Random r = new Random();
 			int choice = r.nextInt(possibleMoves.size());
@@ -108,6 +115,12 @@ public class JanKenPonAI implements IPlayerNotifier {
 
 	@Override
 	public void disconnectedFromGame(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void effectAnnounced(Effect e) {
 		// TODO Auto-generated method stub
 		
 	}

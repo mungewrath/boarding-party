@@ -43,8 +43,10 @@ public class JanKenPonTextPresenter implements IPlayerNotifier {
 			}
 		} else if(newState.startsWith(JanKenPonGameRules.JanKenPonState.STATE_PLAYER_1_WON.toString())) {
 			System.out.println("You won!");
+			listener.playerQuitGame(this);
 		} else {
 			System.out.println("Oh no, the AI won!");
+			listener.playerQuitGame(this);
 		}
 	}
 	
@@ -65,37 +67,6 @@ public class JanKenPonTextPresenter implements IPlayerNotifier {
 		while(choice > moves.size() || choice < 0);
 		if(!listener.playerWantsToUseCardEffect(this, moves.get(choice).getID())) {
 			throw new Exception("Presenter errorrrrrr");
-		}
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("What is your name?");
-		String name = input.next();
-		List<Player> players = new ArrayList<Player>();
-		
-		JanKenPonTextPresenter presenter = new JanKenPonTextPresenter();
-		Player humanPlayer = new Player(name, presenter);
-		
-		
-		JanKenPonAI ai = new JanKenPonAI();
-		Player computerPlayer = new Player("Al the AI", ai);
-		
-		players.add(humanPlayer);
-		players.add(computerPlayer);
-		
-		IGameRules rules = new JanKenPonGameRules();
-		try {
-			GameState game = new GameState(rules, players);
-			presenter.state = game;
-
-			try {
-				rules.initialize(game);
-			} catch(RulesException e) {
-				throw new GameStateException(e.getMessage());
-			}
-		} catch(GameStateException e) {
-			System.out.println("Error running game: "+e.getMessage());
 		}
 	}
 
@@ -166,6 +137,12 @@ public class JanKenPonTextPresenter implements IPlayerNotifier {
 
 	@Override
 	public void disconnectedFromGame(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void effectAnnounced(Effect e) {
 		// TODO Auto-generated method stub
 		
 	}

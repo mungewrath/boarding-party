@@ -1,3 +1,5 @@
+package network;
+
 /*
  * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
  *
@@ -45,15 +47,17 @@ public class EchoServer {
         try (
             ServerSocket serverSocket =
                 new ServerSocket(Integer.parseInt(args[0]));
-            Socket clientSocket = serverSocket.accept();     
+            Socket clientSocket = serverSocket.accept();
             PrintWriter out =
                 new PrintWriter(clientSocket.getOutputStream(), true);                   
             BufferedReader in = new BufferedReader(
                 new InputStreamReader(clientSocket.getInputStream()));
         ) {
             String inputLine;
+            System.out.println("Connection successful.");
             while ((inputLine = in.readLine()) != null) {
-                out.print(inputLine);
+            	System.out.println(inputLine);
+                out.println(inputLine);
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "

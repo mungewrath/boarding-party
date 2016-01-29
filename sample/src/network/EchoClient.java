@@ -1,3 +1,5 @@
+package network;
+
 /*
  * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
  *
@@ -56,6 +58,7 @@ public class EchoClient {
                     new InputStreamReader(System.in))
         ) {
             String userInput;
+            System.out.println("Connection successful.");
             while ((userInput = stdIn.readLine()) != null) {
                 out.println(userInput);
                 System.out.println("echo: " + in.readLine());

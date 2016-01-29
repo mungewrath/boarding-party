@@ -7,7 +7,7 @@ public class Player {
 	private String name;
 	private IPlayerNotifier notifier;
 	
-	public class PlayerID {
+	public static class PlayerID {
 		public String name;
 		
 		public PlayerID(String name) {
@@ -18,7 +18,6 @@ public class Player {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
 			result = prime * result + ((name == null) ? 0 : name.hashCode());
 			return result;
 		}
@@ -32,18 +31,12 @@ public class Player {
 			if (getClass() != obj.getClass())
 				return false;
 			PlayerID other = (PlayerID) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
 			if (name == null) {
 				if (other.name != null)
 					return false;
 			} else if (!name.equals(other.name))
 				return false;
 			return true;
-		}
-
-		private Player getOuterType() {
-			return Player.this;
 		}
 	}
 

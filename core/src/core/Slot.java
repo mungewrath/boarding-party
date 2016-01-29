@@ -9,7 +9,7 @@ public class Slot {
 	private Player owner;
 	private String name;
 	
-	public class SlotID {
+	public static class SlotID {
 		public String name;
 		public PlayerID playerID;
 		
@@ -22,7 +22,6 @@ public class Slot {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
 			result = prime * result + ((name == null) ? 0 : name.hashCode());
 			result = prime * result
 					+ ((playerID == null) ? 0 : playerID.hashCode());
@@ -38,8 +37,6 @@ public class Slot {
 			if (getClass() != obj.getClass())
 				return false;
 			SlotID other = (SlotID) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
 			if (name == null) {
 				if (other.name != null)
 					return false;
@@ -51,10 +48,6 @@ public class Slot {
 			} else if (!playerID.equals(other.playerID))
 				return false;
 			return true;
-		}
-
-		private Slot getOuterType() {
-			return Slot.this;
 		}
 	}
 	

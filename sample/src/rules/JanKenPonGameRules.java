@@ -52,12 +52,21 @@ public class JanKenPonGameRules implements IGameRules {
 	@Override
 	public boolean changeTurnState(Player arg0, String arg1) {
 		// TODO Auto-generated method stub
-		return false;
+		System.out.println("Player " + arg0.getName() + " trying to change state to " + arg1);
+		// TODO change this later. Only allow the "master" player to change state
+		return true;
 	}
 
 	@Override
 	public String getStartState() {
 		return JanKenPonState.STATE_CHOOSE_TYPE.toString();
+	}
+	
+	
+	@Override
+	public boolean isGameOver() {
+		String turnState = state.getTurnState();
+		return (turnState.contains("WON"));
 	}
 
 	@Override
@@ -68,20 +77,26 @@ public class JanKenPonGameRules implements IGameRules {
 			throw new RulesException("Not the right number of players.");
 		}
 		
-		Effect jan = new Effect(JAN, null, (e, p) -> {
-			System.out.println(p.getName() + " is playing " + e.getEffectName());
-			state.getResourceForPlayer(p, JAN).setQuantity(1);
-			} );
+		Effect jan = new Effect(JAN, null, (e,p) -> true,
+				(e, p) -> {
+					System.out.println(p.getName() + " is playing " + e.getEffectName());
+					state.getResourceForPlayer(p, JAN).setQuantity(1);
+				}
+				);
 		state.addGlobalEffect(jan);
-		Effect ken = new Effect(KEN, null, (e, p) -> {
-			System.out.println(p.getName() + " is playing " + e.getEffectName());
-			state.getResourceForPlayer(p, KEN).setQuantity(1);
-			} );
+		Effect ken = new Effect(KEN, null, (e,p) -> true,
+				(e, p) -> {
+					System.out.println(p.getName() + " is playing " + e.getEffectName());
+					state.getResourceForPlayer(p, KEN).setQuantity(1);
+				}
+				);
 		state.addGlobalEffect(ken);
-		Effect pon = new Effect(PON, null, (e, p) -> {
-			System.out.println(p.getName() + " is playing " + e.getEffectName());
-			state.getResourceForPlayer(p, PON).setQuantity(1);
-			} );
+		Effect pon = new Effect(PON, null, (e,p) -> true,
+				(e, p) -> {
+					System.out.println(p.getName() + " is playing " + e.getEffectName());
+					state.getResourceForPlayer(p, PON).setQuantity(1);
+				}
+				);
 		state.addGlobalEffect(pon);
 		
 		for(int i=0;i<state.getPlayerCount();i++) {
@@ -109,9 +124,13 @@ public class JanKenPonGameRules implements IGameRules {
 	public boolean useCardEffect(Player caster, Effect move) {
 		if(!moves.containsKey(caster)) {
 			moves.put(caster, move);
-			move.getCode().exec(move, caster);
-			if(moves.size() == PLAYER_NUM) {
-				determineOutcome();
+			if(state.getIsMaster()) {
+				move.getCode().exec(move, caster);
+				if(moves.size() == PLAYER_NUM) {
+					determineOutcome();
+				}
+			} else {
+				
 			}
 			return true;
 		} else {
@@ -166,5 +185,10 @@ public class JanKenPonGameRules implements IGameRules {
 			state.getResourceForPlayer(state.getPlayer(i), PON).setQuantity(0);
 		}
 		state.setTurnState(JanKenPonState.STATE_CHOOSE_TYPE.toString());
+	}
+
+	@Override
+	public boolean canUseCardEffect(Player p, Effect e) {
+		return e.getCondition().check(e, p);
 	}
 }

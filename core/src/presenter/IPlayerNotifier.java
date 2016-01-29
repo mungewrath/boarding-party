@@ -13,6 +13,7 @@ public interface IPlayerNotifier {
 	public void cardDestroyed(Card c);
 	
 	// Effects
+	public void effectAnnounced(Effect e);
 	public void effectTriggered(Effect e);
 	
 	// Slots
@@ -38,10 +39,18 @@ public interface IPlayerNotifier {
 	public void subscribeListener(IPlayerNotifierListener listener);
 
 	public interface IPlayerNotifierListener {
+		// Effects
 		boolean playerWantsToUseCardEffect(IPlayerNotifier player, Effect.EffectID e);
+		boolean playerTriggeredCardEffect(IPlayerNotifier player, Effect.EffectID e);
 		boolean playerWantsToMoveCardToSlot(IPlayerNotifier player, Card.CardID card, Slot.SlotID slot);
 		boolean playerWantsToAttachCardToCard(IPlayerNotifier player, Card.CardID host, Card.CardID attachee);
 		boolean playerWantsToChangeGameState(IPlayerNotifier player, String newState);
+		
+		
+		// Server master mandates
+		// These are commands passed from the host of the game and must be carried out
+		// by the client
+		void resourceAmountChanged(Resource.ResourceID resource, int amount);
 		
 		// Out-of-game events
 		void playerQuitGame(IPlayerNotifier player);
