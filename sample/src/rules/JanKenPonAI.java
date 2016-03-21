@@ -9,26 +9,13 @@ import core.Effect;
 import core.Player;
 import core.Resource;
 import core.Slot;
-import presenter.IPlayerNotifier;
+import presenter.AbstractPlayerNotifier;
 
-public class JanKenPonAI implements IPlayerNotifier {
+public class JanKenPonAI extends AbstractPlayerNotifier {
 	List<Effect> possibleMoves = new ArrayList<Effect>();
-	IPlayerNotifierListener listener;
 
 	@Override
-	public void resourceAmountChanged(Resource arg0, int arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void slotAdded(Slot arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void turnStateChanged(String newState) {
+	protected void turnStateChanged_impl(String newState) {
 		System.out.println("Starting AI sleep");
 		try {
 			Thread.sleep(1000);
@@ -49,80 +36,9 @@ public class JanKenPonAI implements IPlayerNotifier {
 	}
 
 	@Override
-	public void globalEffectAdded(Effect e) {
+	protected void globalEffectAdded_impl(Effect e) {
 		possibleMoves.add(e);
 	}
 
-	@Override
-	public void subscribeListener(IPlayerNotifierListener listener) {
-		// TODO Auto-generated method stub
-		this.listener = listener;
-	}
-
-	@Override
-	public void cardDestroyed(Card c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void effectTriggered(Effect e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAddedToSlot(Card c, Slot s) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardMovedToSlot(Card c, Slot s) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAddedToCard(Card host, Card parasite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAttachedToCard(Card host, Card parasite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resourceCreated(Resource r) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playerQuitGame(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playerSentMessage(Player player, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void disconnectedFromGame(String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void effectAnnounced(Effect e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

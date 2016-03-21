@@ -1,11 +1,11 @@
 package core;
 
-import presenter.IPlayerNotifier;
+import presenter.AbstractPlayerNotifier;
 
 
 public class Player {
 	private String name;
-	private IPlayerNotifier notifier;
+	private AbstractPlayerNotifier notifier;
 	
 	public static class PlayerID {
 		public String name;
@@ -40,7 +40,7 @@ public class Player {
 		}
 	}
 
-	public Player(String name, IPlayerNotifier notifier) {
+	public Player(String name, AbstractPlayerNotifier notifier) {
 		this.name = name;
 		this.notifier = notifier;
 	}
@@ -52,7 +52,7 @@ public class Player {
 	public String getName() {
 		return name;
 	}
-	public IPlayerNotifier getNotifier() {
+	public AbstractPlayerNotifier getNotifier() {
 		return notifier;
 	}
 	

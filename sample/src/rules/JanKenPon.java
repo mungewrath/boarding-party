@@ -1,20 +1,16 @@
 package rules;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import network.NetworkAdapter;
 import network.NetworkPlayerNotifier;
-import presenter.IPlayerNotifier;
+import presenter.AbstractPlayerNotifier;
 import core.GameState;
 import core.GameStateException;
 import core.Player;
@@ -55,7 +51,7 @@ public class JanKenPon {
 	private static Player createNetworkPlayer(Scanner input, Socket socket, String remotePlayerNameArg) throws Exception {
 		String playerName = obtainStringInput(remotePlayerNameArg, input, "Enter remote player's name:");
 		NetworkAdapter adapter = new NetworkAdapter(socket);
-		IPlayerNotifier notifier = new NetworkPlayerNotifier(adapter, playerName);
+		AbstractPlayerNotifier notifier = new NetworkPlayerNotifier(adapter, playerName);
 		adapter.beginListening();
 		return new Player(playerName, notifier);
 	}

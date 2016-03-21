@@ -1,8 +1,6 @@
 package network;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,12 +9,11 @@ import core.Effect;
 import core.Player;
 import core.Resource;
 import core.Slot;
-import presenter.IPlayerNotifier;
+import presenter.AbstractPlayerNotifier;
 import presenter.PlayerNotifierException;
 import network.INetworkAdapter.INetworkAdapterListener;
 
-public class NetworkPlayerNotifier implements IPlayerNotifier, INetworkAdapterListener {
-	private IPlayerNotifierListener listener;
+public class NetworkPlayerNotifier extends AbstractPlayerNotifier implements INetworkAdapterListener {
 	private INetworkAdapter adapter;
 	private String playerTag;
 	
@@ -200,98 +197,50 @@ public class NetworkPlayerNotifier implements IPlayerNotifier, INetworkAdapterLi
 	}
 
 	@Override
-	public void turnStateChanged(String newState) {
+	protected void turnStateChanged_impl(String newState) {
 		StringBuilder message = beginMessage(NetworkMessageCode.CODE_TURN_CHANGED);
 		message.append(newState + "\n");
 		adapter.sendMessage(message.toString(), false);
 	}
 
 	@Override
-	public void cardDestroyed(Card c) {
+	protected void cardDestroyed_impl(Card c) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void effectAnnounced(Effect e) {
+	protected void effectAnnounced_impl(Effect e) {
 		StringBuilder message = beginMessage(NetworkMessageCode.CODE_EFFECT_ANNOUNCED);
 		writeEffectID(e.getID(), message);
 		adapter.sendMessage(message.toString(), false);
 	}
 
 	@Override
-	public void effectTriggered(Effect e) {
+	protected void effectTriggered_impl(Effect e) {
 		StringBuilder message = beginMessage(NetworkMessageCode.CODE_EFFECT_TRIGGERED);
 		writeEffectID(e.getID(), message);
 		adapter.sendMessage(message.toString(), false);
 	}
 
 	@Override
-	public void slotAdded(Slot s) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAddedToSlot(Card c, Slot s) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardMovedToSlot(Card c, Slot s) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAddedToCard(Card host, Card parasite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAttachedToCard(Card host, Card parasite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resourceCreated(Resource r) {
+	protected void resourceCreated_impl(Resource r) {
 		StringBuilder message = beginMessage(NetworkMessageCode.CODE_RESOURCE_CREATED);
 		writeResourceID(r.getID(), message);
 		adapter.sendMessage(message.toString(), false);
 	}
 
 	@Override
-	public void resourceAmountChanged(Resource r, int oldAmount) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void globalEffectAdded(Effect e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playerQuitGame(Player player) {
+	protected void playerQuitGame_impl(Player player) {
 		StringBuilder message = beginMessage(NetworkMessageCode.CODE_PLAYER_QUIT_GAME);
 		adapter.sendMessage(message.toString(), false);
 	}
 
 	@Override
-	public void playerSentMessage(Player player, String message) {
+	protected void playerSentMessage_impl(Player player, String message) {
 		StringBuilder messageBody = beginMessage(NetworkMessageCode.CODE_PLAYER_SENT_MESSAGE);
 		messageBody.append(messageBody + "\n");
 		adapter.sendMessage(messageBody.toString(), false);
-	}
-
-	@Override
-	public void disconnectedFromGame(String message) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

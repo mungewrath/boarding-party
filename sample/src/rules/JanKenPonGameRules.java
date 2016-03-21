@@ -14,9 +14,9 @@ public class JanKenPonGameRules implements IGameRules {
 	
 	private static final int PLAYER_NUM = 2; 
 	
-	private static String JAN = "Jan";
-	private static String KEN = "Ken";
-	private static String PON = "Pon";
+	private static String JAN = "Rock";
+	private static String KEN = "Paper";
+	private static String PON = "Scissors";
 	
 	public enum JanKenPonState {
 		STATE_CHOOSE_TYPE,

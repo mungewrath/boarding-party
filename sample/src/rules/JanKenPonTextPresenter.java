@@ -1,39 +1,23 @@
 package rules;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import core.Card;
 import core.Effect;
-import core.GameState;
-import core.GameStateException;
+import core.IPublicGameState;
 import core.Player;
 import core.Resource;
 import core.Slot;
-import presenter.IPlayerNotifier;
-import presenter.IPlayerNotifier.IPlayerNotifierListener;
+import presenter.AbstractPlayerNotifier;
 
-public class JanKenPonTextPresenter implements IPlayerNotifier {
-	public GameState state;
-	IPlayerNotifierListener listener;
+public class JanKenPonTextPresenter extends AbstractPlayerNotifier {
+	public IPublicGameState state;
 	private static Scanner input = new Scanner(System.in);
 
 	@Override
-	public void resourceAmountChanged(Resource arg0, int arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void slotAdded(Slot arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void turnStateChanged(String newState) {
+	protected void turnStateChanged_impl(String newState) {
 		System.out.println("Intercepted state:" + newState);
 		if(newState.equals(JanKenPonGameRules.JanKenPonState.STATE_CHOOSE_TYPE.toString())) {
 			try {
@@ -69,83 +53,6 @@ public class JanKenPonTextPresenter implements IPlayerNotifier {
 		if(!listener.playerWantsToUseCardEffect(this, moves.get(choice).getID())) {
 			throw new Exception("Presenter errorrrrrr");
 		}
-	}
-
-	@Override
-	public void globalEffectAdded(Effect e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void subscribeListener(IPlayerNotifierListener listener) {
-		this.listener = listener;
-	}
-
-	@Override
-	public void cardDestroyed(Card c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void effectTriggered(Effect e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAddedToSlot(Card c, Slot s) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardMovedToSlot(Card c, Slot s) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAddedToCard(Card host, Card parasite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cardAttachedToCard(Card host, Card parasite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resourceCreated(Resource r) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playerQuitGame(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playerSentMessage(Player player, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void disconnectedFromGame(String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void effectAnnounced(Effect e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
