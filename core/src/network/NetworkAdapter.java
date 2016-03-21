@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,7 +62,10 @@ public class NetworkAdapter implements INetworkAdapter {
 					} else if(listeners.containsKey(user)) {
 						listeners.get(user).messageReceived(contents, user);
 					}
-				} catch (IOException e) {
+				} catch (SocketException e) {
+                    e.printStackTrace();
+                    System.exit(-1);
+                } catch (IOException e) {
 					e.printStackTrace();
 				} catch (NetworkException e) {
 					e.printStackTrace();
@@ -86,11 +90,11 @@ public class NetworkAdapter implements INetworkAdapter {
 		@Override
 		public void run() {
 			synchronized(NetworkAdapter.this) {
-				System.out.println("Sending message:" + message);
 				writer.print(message);
-				writer.flush();
+                System.out.println(">>>Sending message:\n" + message);
+                writer.flush();
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

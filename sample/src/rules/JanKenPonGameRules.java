@@ -54,7 +54,7 @@ public class JanKenPonGameRules implements IGameRules {
 		// TODO Auto-generated method stub
 		System.out.println("Player " + arg0.getName() + " trying to change state to " + arg1);
 		// TODO change this later. Only allow the "master" player to change state
-		return true;
+		return (!state.getIsMaster() && arg0.getID().name.equals("placeholder"));
 	}
 
 	@Override

@@ -40,6 +40,7 @@ public class JanKenPonTextPresenter implements IPlayerNotifier {
 				chooseMove();
 			} catch(Exception e) {
 				System.out.println(e.getMessage());
+                e.printStackTrace();
 			}
 		} else if(newState.startsWith(JanKenPonGameRules.JanKenPonState.STATE_PLAYER_1_WON.toString())) {
 			System.out.println("You won!");

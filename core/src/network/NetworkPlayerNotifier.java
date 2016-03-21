@@ -55,7 +55,7 @@ public class NetworkPlayerNotifier implements IPlayerNotifier, INetworkAdapterLi
 			Iterator<String> iter = contents.iterator();
 			codeLine = iter.next();
 			
-			System.out.println("Received message code "+codeLine);
+			System.out.println("<<<Received message code "+codeLine);
 		
 			NetworkMessageCode messageCode = NetworkMessageCode.valueOf(codeLine); 
 			
