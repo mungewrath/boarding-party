@@ -36,23 +36,23 @@ public class JanKenPonTextPresenter extends AbstractPlayerNotifier {
 	}
 	
 	private void chooseMove() throws Exception {
-		System.out.println("Choose your move:");
-		List<Effect> moves = state.getAllGlobalEffects();
-		for(int i=0;i<moves.size();i++) {
-			System.out.println(i + ") " + moves.get(i).getEffectName());
-		}
-		int choice = -1;
-		do {
-			try {
-				choice = input.nextInt();
-			} catch(InputMismatchException e) {
-				System.out.println("Invalid choice.");
-			}
-		}
-		while(choice > moves.size() || choice < 0);
-		if(!listener.playerWantsToUseCardEffect(this, moves.get(choice).getID())) {
-			throw new Exception("Presenter errorrrrrr");
-		}
+        System.out.println("Choose your move:");
+        List<Effect> moves = state.getAllGlobalEffects();
+        for(int i = 0; i < moves.size(); i++) {
+            System.out.println(i + ") " + moves.get(i).getEffectName());
+        }
+        int choice = -1;
+        do {
+            try {
+                choice = input.nextInt();
+            } catch(InputMismatchException e) {
+                System.out.println("Invalid choice.");
+            }
+        }
+        while(choice > moves.size() || choice < 0);
+        if(!listener.playerWantsToUseCardEffect(JanKenPonTextPresenter.this, moves.get(choice).getID())) {
+            System.out.println("!!!! Presenter couldn't use card!");
+        }
 	}
 
 }
