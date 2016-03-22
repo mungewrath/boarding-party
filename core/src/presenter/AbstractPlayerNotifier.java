@@ -10,13 +10,13 @@ public abstract class AbstractPlayerNotifier {
     // Typically the game state, waiting for requests
     protected IPlayerNotifierListener listener;
 
-    public final void turnStateChanged(String newState) {
+    public final void turnStateChanged(String newState, String oldState) {
         Thread t = new Thread(
-                () -> turnStateChanged_impl(newState)
+                () -> turnStateChanged_impl(newState, oldState)
         );
         t.start();
     }
-    protected void turnStateChanged_impl(String newState) {}
+    protected void turnStateChanged_impl(String newState, String oldState) {}
 
     // Cards
     public final void cardDestroyed(Card c) {

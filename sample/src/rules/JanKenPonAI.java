@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import core.Card;
 import core.Effect;
-import core.Player;
-import core.Resource;
-import core.Slot;
 import presenter.AbstractPlayerNotifier;
 
 public class JanKenPonAI extends AbstractPlayerNotifier {
 	List<Effect> possibleMoves = new ArrayList<Effect>();
 
 	@Override
-	protected void turnStateChanged_impl(String newState) {
+	protected void turnStateChanged_impl(String newState, String oldState) {
 		System.out.println("Starting AI sleep");
 		try {
 			Thread.sleep(1000);

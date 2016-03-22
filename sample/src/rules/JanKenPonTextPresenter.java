@@ -4,12 +4,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import core.Card;
 import core.Effect;
 import core.IPublicGameState;
-import core.Player;
-import core.Resource;
-import core.Slot;
 import presenter.AbstractPlayerNotifier;
 
 public class JanKenPonTextPresenter extends AbstractPlayerNotifier {
@@ -17,14 +13,16 @@ public class JanKenPonTextPresenter extends AbstractPlayerNotifier {
 	private static Scanner input = new Scanner(System.in);
 
 	@Override
-	protected void turnStateChanged_impl(String newState) {
+	protected void turnStateChanged_impl(String newState, String oldState) {
 		System.out.println("Intercepted state:" + newState);
 		if(newState.equals(JanKenPonGameRules.JanKenPonState.STATE_CHOOSE_TYPE.toString())) {
-			try {
-				chooseMove();
-			} catch(Exception e) {
-				System.out.println(e.getMessage());
-                e.printStackTrace();
+			if(!newState.equals(oldState)) {
+				try {
+					chooseMove();
+				} catch(Exception e) {
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+				}
 			}
 		} else if(newState.startsWith(JanKenPonGameRules.JanKenPonState.STATE_PLAYER_1_WON.toString())) {
 			System.out.println("You won!");

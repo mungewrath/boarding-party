@@ -197,7 +197,7 @@ public class NetworkPlayerNotifier extends AbstractPlayerNotifier implements INe
 	}
 
 	@Override
-	protected void turnStateChanged_impl(String newState) {
+	protected void turnStateChanged_impl(String newState, String oldState) {
 		StringBuilder message = beginMessage(NetworkMessageCode.CODE_TURN_CHANGED);
 		message.append(newState + "\n");
 		adapter.sendMessage(message.toString(), false);

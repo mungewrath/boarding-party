@@ -31,94 +31,9 @@ public class GameState implements IPlayerNotifierListener, IPublicGameState {
 			playerPresenters.put(p.getNotifier(), p);
 			p.getNotifier().subscribeListener(this);
 		}
-		turnState = rules.getStartState();
+		turnState = "";
 	}
-	
-	protected enum NotifierMessageCode {
-		CODE_TURN_CHANGED,
-		CODE_CARD_DESTROYED,
-		CODE_EFFECT_ANNOUNCED,
-		CODE_EFFECT_TRIGGERED,
-		CODE_SLOT_ADDED,
-		CODE_CARD_ADDED_TO_SLOT,
-		CODE_CARD_MOVED_TO_SLOT,
-		CODE_CARD_ADDED_TO_CARD,
-		CODE_CARD_ATTACHED_TO_CARD,
-		CODE_RESOURCE_CREATED,
-		CODE_RESOURCE_AMOUNT_CHANGED,
-		CODE_GLOBAL_EFFECT_ADDED,
-		CODE_PLAYER_QUIT_GAME,
-		CODE_PLAYER_SENT_MESSAGE,
-		CODE_DISCONNECTED
-	}
-	
-	protected class NotifierThread implements Runnable {
-		private Thread t;
-		private NotifierMessageCode code;
-		private Object args[];
-		private AbstractPlayerNotifier playerNotifier;
-		
-		public NotifierThread(NotifierMessageCode code, AbstractPlayerNotifier playerNotifier, Object args[]) {
-			this.code = code;
-			this.args = args;
-			this.playerNotifier = playerNotifier;
-			t = new Thread(this, code.name()); 
-			t.start();
-		}
 
-		@Override
-		public void run() {
-			System.out.println("Started thread for: "+code.name());
-			switch(code) {
-			case CODE_TURN_CHANGED:
-				playerNotifier.turnStateChanged((String) args[0]);
-				break;
-			case CODE_CARD_DESTROYED:
-				playerNotifier.cardDestroyed((Card) args[0]);
-				break;
-			case CODE_EFFECT_ANNOUNCED:
-				playerNotifier.effectAnnounced((Effect) args[0]);
-				break;
-			case CODE_EFFECT_TRIGGERED:
-				playerNotifier.effectTriggered((Effect) args[0]);
-				break;
-			case CODE_SLOT_ADDED:
-				playerNotifier.slotAdded((Slot) args[0]);
-				break;
-			case CODE_CARD_ADDED_TO_SLOT:
-				playerNotifier.cardAddedToSlot((Card) args[0], (Slot) args[1]);
-				break;
-			case CODE_CARD_MOVED_TO_SLOT:
-				playerNotifier.cardMovedToSlot((Card) args[0], (Slot) args[1]);
-				break;
-			case CODE_CARD_ADDED_TO_CARD:
-				playerNotifier.cardAddedToCard((Card) args[0], (Card) args[1]);
-				break;
-			case CODE_CARD_ATTACHED_TO_CARD:
-				playerNotifier.cardAttachedToCard((Card) args[0], (Card) args[1]);
-				break;
-			case CODE_RESOURCE_CREATED:
-				playerNotifier.resourceCreated((Resource) args[0]);
-				break;
-			case CODE_RESOURCE_AMOUNT_CHANGED:
-				playerNotifier.resourceAmountChanged((Resource) args[0], (Integer) args[1]);
-				break;
-			case CODE_GLOBAL_EFFECT_ADDED:
-				playerNotifier.globalEffectAdded((Effect) args[0]);
-				break;
-			case CODE_PLAYER_QUIT_GAME:
-				playerNotifier.playerQuitGame((Player) args[0]);
-				break;
-			case CODE_PLAYER_SENT_MESSAGE:
-				playerNotifier.playerSentMessage((Player) args[0], (String) args[1]);
-				break;
-			case CODE_DISCONNECTED:
-				playerNotifier.disconnectedFromGame((String) args[0]);
-				break;
-			}
-		}
-	}
-	
 	// Whether this instance is running the game, or is a client connected to a host.
 	// Clients should have restricted abilities to execute effects, and instead request they be sent to the server.
 	public boolean getIsMaster() {
@@ -126,9 +41,10 @@ public class GameState implements IPlayerNotifierListener, IPublicGameState {
 	}
 	
 	public void setTurnState(String newState) {
+		String oldState = turnState;
 		turnState = newState;
         for(AbstractPlayerNotifier presenter : playerPresenters.keySet()) {
-            presenter.turnStateChanged(newState);
+            presenter.turnStateChanged(newState, oldState);
             //new NotifierThread(NotifierMessageCode.CODE_TURN_CHANGED, presenter,
             //new Object[] { newState });
         }
@@ -268,12 +184,12 @@ public class GameState implements IPlayerNotifierListener, IPublicGameState {
 	public boolean playerWantsToChangeGameState(AbstractPlayerNotifier player,
 			String newState) {
 		synchronized(this) {
-			//if(rules.changeTurnState(playerPresenters.get(player), newState)) {
-//				this.setTurnState(newState);
-				//return true;
-			//} else {
+			if(rules.changeTurnState(playerPresenters.get(player), newState)) {
+				this.setTurnState(newState);
+				return true;
+			} else {
 				return false;
-			//}
+			}
 		}
 	}
 
