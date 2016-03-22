@@ -16,7 +16,6 @@ public abstract class AbstractPlayerNotifier {
         );
         t.start();
     }
-
     protected void turnStateChanged_impl(String newState) {}
 
     // Cards
@@ -74,8 +73,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void cardMovedToSlot_impl(Card c, Slot s) {
-    }
+    protected void cardMovedToSlot_impl(Card c, Slot s) {}
 
     public final void cardAddedToCard(Card host, Card parasite) {
         Thread t = new Thread(
@@ -84,8 +82,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void cardAddedToCard_impl(Card host, Card parasite) {
-    }
+    protected void cardAddedToCard_impl(Card host, Card parasite) {}
 
     public final void cardAttachedToCard(Card host, Card parasite) {
         Thread t = new Thread(
@@ -94,8 +91,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void cardAttachedToCard_impl(Card host, Card parasite) {
-    }
+    protected void cardAttachedToCard_impl(Card host, Card parasite) {}
 
     // Resources
     public final void resourceCreated(Resource r) {
@@ -105,8 +101,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void resourceCreated_impl(Resource r) {
-    }
+    protected void resourceCreated_impl(Resource r) {}
 
     public final void resourceAmountChanged(Resource r, int oldAmount) {
         Thread t = new Thread(
@@ -115,8 +110,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void resourceAmountChanged_impl(Resource r, int oldAmount) {
-    }
+    protected void resourceAmountChanged_impl(Resource r, int oldAmount) {}
 
     // Global effects
     public final void globalEffectAdded(Effect e) {
@@ -126,8 +120,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void globalEffectAdded_impl(Effect e) {
-    }
+    protected void globalEffectAdded_impl(Effect e) {}
 
     // Out-of-game events
     public final void playerQuitGame(Player player) {
@@ -137,8 +130,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void playerQuitGame_impl(Player player) {
-    }
+    protected void playerQuitGame_impl(Player player) {}
 
     public final void playerSentMessage(Player player, String message) {
         Thread t = new Thread(
@@ -147,8 +139,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void playerSentMessage_impl(Player player, String message) {
-    }
+    protected void playerSentMessage_impl(Player player, String message) {}
 
     public final void disconnectedFromGame(String message) {
         Thread t = new Thread(
@@ -157,8 +148,7 @@ public abstract class AbstractPlayerNotifier {
         t.start();
     }
 
-    protected void disconnectedFromGame_impl(String message) {
-    }
+    protected void disconnectedFromGame_impl(String message) {}
 
     // Subscriber methods
     public void subscribeListener(IPlayerNotifierListener listener) {
