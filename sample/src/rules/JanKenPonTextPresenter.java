@@ -24,11 +24,15 @@ public class JanKenPonTextPresenter extends AbstractPlayerNotifier {
 					e.printStackTrace();
 				}
 			}
-		} else if(newState.startsWith(JanKenPonGameRules.JanKenPonState.STATE_PLAYER_1_WON.toString())) {
+		} else if((newState.startsWith(JanKenPonGameRules.JanKenPonState.STATE_PLAYER_1_WON.toString()) && state.isMaster()) ||
+				(newState.startsWith(JanKenPonGameRules.JanKenPonState.STATE_PLAYER_2_WON.toString()) && !state.isMaster())) {
 			System.out.println("You won!");
 			listener.playerQuitGame(this);
-		} else {
+		} else if(newState.startsWith(JanKenPonGameRules.JanKenPonState.STATE_PLAYER_2_WON.toString()) && state.isMaster()) {
 			System.out.println("Oh no, the AI won!");
+			listener.playerQuitGame(this);
+		} else {
+			System.out.println("Oh no, the other player won!");
 			listener.playerQuitGame(this);
 		}
 	}

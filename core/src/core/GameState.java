@@ -36,7 +36,7 @@ public class GameState implements IPlayerNotifierListener, IPublicGameState {
 
 	// Whether this instance is running the game, or is a client connected to a host.
 	// Clients should have restricted abilities to execute effects, and instead request they be sent to the server.
-	public boolean getIsMaster() {
+	public boolean isMaster() {
 		return isMaster;
 	}
 	

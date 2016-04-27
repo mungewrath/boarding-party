@@ -10,4 +10,5 @@ public interface IPublicGameState {
     int getPlayerCount();
     Player getPlayer(int num);
     Resource getResourceForPlayer(Player p, String id);
+    boolean isMaster();
 }

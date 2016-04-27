@@ -54,7 +54,7 @@ public class JanKenPonGameRules implements IGameRules {
 		// TODO Auto-generated method stub
 		System.out.println("Player " + arg0.getName() + " trying to change state to " + arg1);
 		// TODO change this later. Only allow the "master" player to change state
-		return (!state.getIsMaster() && arg0.getID().name.equals("placeholder"));
+		return (!state.isMaster() && arg0.getID().name.equals("placeholder"));
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class JanKenPonGameRules implements IGameRules {
 	public boolean useCardEffect(Player caster, Effect move) {
 		if(!moves.containsKey(caster)) {
 			moves.put(caster, move);
-			if(state.getIsMaster()) {
+			if(state.isMaster()) {
 				move.getCode().exec(move, caster);
 				if(moves.size() == PLAYER_NUM) {
 					determineOutcome();
@@ -141,7 +141,7 @@ public class JanKenPonGameRules implements IGameRules {
 	private void determineOutcome() {
 		if(state.getResourceForPlayer(state.getPlayer(0), JAN).getQuantity() > 0) {
 			if(state.getResourceForPlayer(state.getPlayer(1), KEN).getQuantity() > 0) {
-				// Ken beats Jan
+				// Paper beats Rock
 				aiWins();
 			} else if(state.getResourceForPlayer(state.getPlayer(1), PON).getQuantity() > 0) {
 				humanWins();
@@ -150,7 +150,7 @@ public class JanKenPonGameRules implements IGameRules {
 			}
 		} else if(state.getResourceForPlayer(state.getPlayer(0), KEN).getQuantity() > 0) {
 			if(state.getResourceForPlayer(state.getPlayer(1), JAN).getQuantity() > 0) {
-				// Ken beats Jan
+				// Paper beats Rock
 				humanWins();
 			} else if(state.getResourceForPlayer(state.getPlayer(1), PON).getQuantity() > 0) {
 				aiWins();
@@ -159,7 +159,7 @@ public class JanKenPonGameRules implements IGameRules {
 			}
 		} else if(state.getResourceForPlayer(state.getPlayer(0), PON).getQuantity() > 0) {
 			if(state.getResourceForPlayer(state.getPlayer(1), JAN).getQuantity() > 0) {
-				// Jan beats Pon
+				// Rock beats Scissors
 				humanWins();
 			} else if(state.getResourceForPlayer(state.getPlayer(1), KEN).getQuantity() > 0) {
 				aiWins();
